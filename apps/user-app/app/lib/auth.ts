@@ -32,23 +32,6 @@ export const authOptions = {
                 return null;
             }
 
-            try {
-                const user = await db.user.create({
-                    data: {
-                        number: credentials.phone,
-                        password: hashedPassword
-                    }
-                });
-            
-                return {
-                    id: user.id.toString(),
-                    name: user.name,
-                    email: user.number
-                }
-            } catch(e) {
-                console.error(e);
-            }
-
             return null
           },
         })
@@ -61,6 +44,9 @@ export const authOptions = {
 
             return session
         }
+    },
+    pages: {
+        signIn: "/signin"
     }
   }
   

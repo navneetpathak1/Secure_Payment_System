@@ -17,12 +17,23 @@ async function main() {
         }
       },
       OnRampTransaction: {
-        create: {
-          startTime: new Date(),
-          status: "Success",
-          amount: 20000,
-          token: "token__1",
-          provider: "HDFC Bank",
+        createMany: {
+          data: [
+            {
+              startTime: new Date(),
+              status: "Success",
+              amount: 20000,
+              token: "token__1",
+              provider: "HDFC Bank",
+            },
+            {
+              startTime: new Date(),
+              status: "Processing",
+              amount: 5000,
+              token: "token__3",
+              provider: "Axis Bank",
+            }
+          ]
         },
       },
     },
@@ -51,7 +62,31 @@ async function main() {
       },
     },
   })
-  console.log({ alice, bob })
+  const carol = await prisma.user.upsert({
+    where: { number: '3333333333' },
+    update: {},
+    create: {
+      number: '3333333333',
+      password: await bcrypt.hash('carol', 10),
+      name: 'carol',
+      Balance: {
+        create: {
+            amount: 10000,
+            locked: 0
+        }
+      },
+      OnRampTransaction: {
+        create: {
+          startTime: new Date(),
+          status: "Success",
+          amount: 10000,
+          token: "token__4",
+          provider: "SBI Bank",
+        },
+      },
+    },
+  })
+  console.log({ alice, bob, carol })
 }
 main()
   .then(async () => {
